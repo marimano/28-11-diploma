@@ -3,6 +3,8 @@ const HtmlPlugin = require('html-webpack-plugin');
 const CssPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
+const CopyPlugin = require("copy-webpack-plugin");
+
 module.exports = (env) => ({
   mode: 'development',
   entry: './src/index.js', // where to start from
@@ -17,7 +19,12 @@ module.exports = (env) => ({
     }),
     new CssPlugin({
       filename: 'styles[fullhash].css' // all css goes to this file and is added to html
-    })
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "static", to: "static" }
+      ],
+    }),
   ],
   devServer: { // to start server locally
     port: 5500,
