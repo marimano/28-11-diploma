@@ -1,11 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const fetchHotels = createAsyncThunk('hotels/fetchHotels', async () => {
-  let resp = await fetch('/static/db.json');
-  const { hotels } = await resp.json();
-
-  resp = await fetch('/static/imgs.json');
-  const imgData = await resp.json();
+  const { data: { hotels } } = await axios.get('/static/db.json');
+  const { data: imgData } = await axios.get('/static/imgs.json');
 
   hotels.forEach(hotel => {
     hotel.url = imgData.find(({ id }) => id === hotel.id)?.url || '';
